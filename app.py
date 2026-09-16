@@ -21,7 +21,7 @@ def verificar_password():
     
     if st.button("Ingresar"):
         # Compara con la contraseña guardada en los Secrets
-        if password_ingresada == st.secrets.get("APP_PASSWORD", "Instal2026."):
+        if password_ingresada == st.secrets.get("APP_PASSWORD", "Password"):
             st.session_state.autenticado = True
             st.rerun()
         else:

@@ -1,0 +1,13 @@
+# Entornos virtuales
+venv/
+.venv/
+env/
+
+# Credenciales y claves secretas de Google / Streamlit (MUY IMPORTANTE)
+.streamlit/secrets.toml
+*.json
+
+# Archivos de caché y python
+__pycache__/
+*.pyc
+.DS_Store
