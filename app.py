@@ -50,3 +50,9 @@ st.title("🌐 Analisis OTs")
 
 # --- CONEXIÓN A GOOGLE DRIVE VÍA SECRETS ---
 NOMBRE_ARCHIVO = "report.csv"
+
+df = NOMBRE_ARCHIVO
+
+st.subheader("📋 Todos los Resultados")
+    st.write(f"Resultados encontrados: **{len(df)}**")
+    st.dataframe(df, use_container_width=True)
