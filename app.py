@@ -8,6 +8,8 @@ import io
 #----------------------------------------------------------------------
 #Implemento un Login por Contraseña
 #----------------------------------------------------------------------
+import streamlit as st
+
 def verificar_password():
     """Retorna True si el usuario ingresó la contraseña correcta."""
     if "autenticado" not in st.session_state:
@@ -16,17 +18,25 @@ def verificar_password():
     if st.session_state.autenticado:
         return True
 
-    st.subheader("🔒 Acceso Restringido - AnasilisRED")
+    st.subheader("🔒 Acceso Restringido - AnálisisRED")
+    
+    # 1. Obtener la contraseña desde los Secrets
+    try:
+        correct_password = st.secrets["APP_PASSWORD"]
+    except KeyError:
+        st.error("⚠️ La contraseña del sistema no está configurada en los Secrets de Streamlit.")
+        return False
+
+    # 2. Formulario de ingreso
     password_ingresada = st.text_input("Ingresa la contraseña de acceso:", type="password")
     
     if st.button("Ingresar"):
-        # Compara con la contraseña guardada en los Secrets
-        if password_ingresada == st.secrets.get("APP_PASSWORD", "Password"):
+        if password_ingresada == correct_password:
             st.session_state.autenticado = True
             st.rerun()
         else:
             st.error("Contraseña incorrecta")
-    
+            
     return False
 
 # Control de acceso principal
