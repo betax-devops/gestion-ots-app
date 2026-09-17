@@ -82,8 +82,18 @@ def cargar_csv_desde_drive(nombre_archivo):
     file_stream.seek(0)
 
     # 4. Leer el CSV con Pandas (ajustando separador de punto y coma)
-    return pd.read_csv(file_stream, sep=";", quotechar='"')
-
+    try:
+        # Intenta primero con utf-8-sig / utf-8
+        return pd.read_csv(file_stream, sep=";", quotechar='"', encoding="utf-8-sig")
+    except (UnicodeDecodeError, Exception):
+        file_stream.seek(0)
+        try:
+            # Si falla, intenta con latin1 (muy común en Windows / Latinoamérica)
+            return pd.read_csv(file_stream, sep=";", quotechar='"', encoding="latin1")
+        except Exception:
+            file_stream.seek(0)
+            # Como último recurso, lee ignorando errores de caracteres extraños
+            return pd.read_csv(file_stream, sep=";", quotechar='"', encoding="utf-8", encoding_errors="ignore")
 
 # --- CARGA Y VISUALIZACIÓN DE TABLA ---
 NOMBRE_ARCHIVO = "report.csv"
